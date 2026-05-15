@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#E30613">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Sant Cristòfol 2026 · Trans-Escapa</title>
+
+<!-- PWA Manifest inline -->
+<link rel="manifest" href='data:application/manifest+json,{"name":"Sant Cristòfol 2026","short_name":"Sant Cristòfol","start_url":".","display":"standalone","background_color":"%23ffffff","theme_color":"%23E30613","icons":[{"src":"data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23E30613%22 width=%22100%22 height=%22100%22 rx=%2218%22/><text x=%2250%22 y=%2266%22 font-size=%2256%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22Arial%22 font-weight=%22900%22>TE</text></svg>","sizes":"192x192","type":"image/svg+xml"}]}'>
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  :root {
+    --red: #E30613;
+    --red-dark: #B30510;
+    --dark: #1a1a1a;
+    --grey: #666;
+    --light-grey: #f5f5f5;
+    --light-red: #FFF5F5;
+    --border: #e0e0e0;
+    --success: #10B981;
+  }
+
+  html, body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    background: #fafafa;
+    color: var(--dark);
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  body {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .container {
+    max-width: 500px;
+    margin: 0 auto;
+    background: #fff;
+    min-height: 100vh;
+    box-shadow: 0 0 20px rgba(0,0,0,0.05);
+  }
+
+  /* HEADER */
+  .header {
+    background: #fff;
+    padding: 18px 20px 16px;
+    border-bottom: 4px solid var(--red);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--red);
+    letter-spacing: -0.3px;
+  }
+  .logo span { color: var(--dark); font-weight: 700; }
+  .date-box {
+    background: var(--red);
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 8px;
+    text-align: center;
+    line-height: 1;
+  }
+  .date-box .day {
+    font-size: 22px;
+    font-weight: 900;
+    display: block;
+  }
+  .date-box .month {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    margin-top: 3px;
+    display: block;
+  }
+
+  /* HERO TÍTOL */
+  .hero {
+    text-align: center;
+    padding: 28px 20px 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .pretitle {
+    font-size: 10px;
+    color: var(--grey);
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  .hero h1 {
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 1.05;
+    margin-bottom: 10px;
+  }
+  .hero h1 .accent { color: var(--red); }
+  .hero .subtitle {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.4;
+    padding: 0 10px;
+  }
+
+  /* PROGRAMA */
+  .programa {
+    background: var(--light-grey);
+    padding: 20px 20px;
+    border-left: 5px solid var(--red);
+    margin: 0 0 0 0;
+  }
+  .programa-title {
+    font-size: 11px;
+    color: var(--red);
+    letter-spacing: 2px;
+    font-weight: 800;
+    margin-bottom: 14px;
+  }
+  .programa-row {
+    display: flex;
+    align-items: baseline;
+    padding: 6px 0;
+    font-size: 14px;
+  }
+  .programa-time {
+    color: var(--red);
+    font-weight: 900;
+    width: 60px;
+    flex-shrink: 0;
+    font-size: 14px;
+  }
+  .programa-desc {
+    color: var(--dark);
+    line-height: 1.35;
+  }
+  .programa-desc strong {
+    font-weight: 800;
+  }
+
+  /* FORM */
+  .form-section {
+    padding: 24px 20px;
+    border-bottom: 8px solid var(--light-grey);
+  }
+  .form-section:last-of-type { border-bottom: none; }
+
+  .section-title {
+    font-size: 11px;
+    color: var(--red);
+    letter-spacing: 2px;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title::before {
+    content: '';
+    width: 24px;
+    height: 3px;
+    background: var(--red);
+    display: inline-block;
+  }
+  .section-subtitle {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--dark);
+    margin-bottom: 18px;
+  }
+
+  .field {
+    margin-bottom: 18px;
+  }
+  .field:last-child { margin-bottom: 0; }
+
+  label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 8px;
+  }
+  label .required { color: var(--red); margin-left: 2px; }
+  .help-text {
+    font-size: 12px;
+    color: var(--grey);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    font-size: 16px; /* 16px evita zoom a iOS */
+    font-family: inherit;
+    background: #fff;
+    color: var(--dark);
+    transition: border-color 0.15s, background 0.15s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  input[type="text"]:focus,
+  input[type="number"]:focus,
+  textarea:focus {
+    outline: none;
+    border-color: var(--red);
+    background: #fffafa;
+  }
+  textarea {
+    min-height: 80px;
+    resize: vertical;
+  }
+  input.error {
+    border-color: var(--red);
+    background: var(--light-red);
+  }
+
+  /* Radio (Sí/No) — tarjetes grans */
+  .radio-group {
+    display: flex;
+    gap: 10px;
+  }
+  .radio-card {
+    position: relative;
+    cursor: pointer;
+    flex: 1;
+  }
+  .radio-card input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .radio-card .card-content {
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 12px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--dark);
+    background: #fff;
+    transition: all 0.15s;
+  }
+  .radio-card input[type="radio"]:checked + .card-content {
+    border-color: var(--red);
+    background: var(--red);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(227,6,19,0.25);
+  }
+  .radio-card .card-content .icon {
+    font-size: 22px;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* Number stepper */
+  .stepper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .stepper-btn {
+    width: 50px;
+    height: 50px;
+    border: 2px solid var(--border);
+    background: #fff;
+    border-radius: 10px;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--dark);
+    cursor: pointer;
+    transition: all 0.1s;
+    flex-shrink: 0;
+  }
+  .stepper-btn:active {
+    border-color: var(--red);
+    background: var(--light-red);
+    transform: scale(0.95);
+  }
+  .stepper input {
+    text-align: center;
+    font-weight: 800;
+    font-size: 20px;
+  }
+
+  /* Conditional reveal */
+  .conditional {
+    display: none;
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px dashed #ccc;
+    animation: fadeIn 0.25s ease;
+  }
+  .conditional.show { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Submit button */
+  .submit-section {
+    padding: 20px 20px 30px;
+    background: #fff;
+    border-top: 4px solid var(--red);
+  }
+  .btn-submit {
+    width: 100%;
+    background: var(--red);
+    color: #fff;
+    border: none;
+    padding: 18px;
+    border-radius: 12px;
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(227,6,19,0.3);
+    transition: all 0.15s;
+    font-family: inherit;
+    -webkit-appearance: none;
+  }
+  .btn-submit:active {
+    transform: scale(0.98);
+    box-shadow: 0 3px 10px rgba(227,6,19,0.4);
+  }
+  .btn-submit:disabled {
+    background: #ccc;
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+
+  /* Pantalla d'èxit */
+  .success-screen {
+    display: none;
+    padding: 60px 30px;
+    text-align: center;
+  }
+  .success-screen.show { display: block; }
+  .success-icon {
+    width: 90px;
+    height: 90px;
+    background: var(--success);
+    border-radius: 50%;
+    margin: 0 auto 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 50px;
+    box-shadow: 0 8px 24px rgba(16,185,129,0.3);
+  }
+  .success-screen h2 {
+    font-size: 26px;
+    font-weight: 900;
+    margin-bottom: 12px;
+  }
+  .success-screen p {
+    color: var(--grey);
+    font-size: 15px;
+    line-height: 1.5;
+    margin-bottom: 24px;
+  }
+  .success-screen .summary {
+    background: var(--light-grey);
+    border-radius: 12px;
+    padding: 18px;
+    text-align: left;
+    margin-bottom: 24px;
+  }
+  .success-screen .summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 14px;
+  }
+  .success-screen .summary-row + .summary-row {
+    border-top: 1px solid #e0e0e0;
+  }
+  .success-screen .summary-label { color: var(--grey); }
+  .success-screen .summary-value { font-weight: 700; color: var(--dark); text-align: right; }
+
+  /* Loading overlay */
+  .loading-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(255,255,255,0.9);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .loading-overlay.show { display: flex; }
+  .spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #f0f0f0;
+    border-top-color: var(--red);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-overlay p {
+    color: var(--dark);
+    font-weight: 600;
+  }
+
+  /* Toast errors */
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(120px);
+    background: var(--dark);
+    color: #fff;
+    padding: 14px 24px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    transition: transform 0.3s;
+    z-index: 1100;
+    max-width: 90%;
+  }
+  .toast.show {
+    transform: translateX(-50%) translateY(0);
+  }
+  .toast.error { background: var(--red); }
+
+  /* Footer compacte */
+  .footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 11px;
+    color: var(--grey);
+    background: var(--light-grey);
+  }
+  .footer strong { color: var(--dark); }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo">TRANS-ESCAPA</div>
+    <div class="date-box">
+      <span class="day">11</span>
+      <span class="month">JULIOL</span>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="pretitle">EL DIA DELS CAMIONS</div>
+    <h1>DIADA DE<br><span class="accent">SANT CRISTÒFOL</span></h1>
+    <div class="subtitle">Inauguració de la cantina i la terrassa nova</div>
+  </div>
+
+  <!-- PROGRAMA -->
+  <div class="programa">
+    <div class="programa-title">PROGRAMA DE LA JORNADA</div>
+    <div class="programa-list">
+      <div class="programa-row">
+        <div class="programa-time">8h</div>
+        <div class="programa-desc"><strong>Obertura</strong> del recinte</div>
+      </div>
+      <div class="programa-row">
+        <div class="programa-time">9h</div>
+        <div class="programa-desc"><strong>Esmorzar</strong> al recinte</div>
+      </div>
+      <div class="programa-row">
+        <div class="programa-time">13:30</div>
+        <div class="programa-desc"><strong>Rua de camions</strong> + benedicció</div>
+      </div>
+      <div class="programa-row">
+        <div class="programa-time">14h</div>
+        <div class="programa-desc"><strong>Dinar</strong> — inauguració terrassa i cantina</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORMULARI -->
+  <form id="inscripcio-form" autocomplete="off">
+
+    <!-- SECCIÓ 1: IDENTIFICACIÓ -->
+    <div class="form-section">
+      <div class="section-title">Pas 1</div>
+      <div class="section-subtitle">Qui ets?</div>
+
+      <div class="field">
+        <label for="nom">Nom i cognoms <span class="required">*</span></label>
+        <input type="text" id="nom" name="nom" required autocomplete="name" placeholder="Ex: Joan Garcia Puig">
+      </div>
+    </div>
+
+    <!-- SECCIÓ 2: RUA / ESMORZAR -->
+    <div class="form-section">
+      <div class="section-title">Pas 2</div>
+      <div class="section-subtitle">Vens al recinte firal?</div>
+
+      <div class="field">
+        <label>Participaràs a la rua i l'esmorzar? <span class="required">*</span></label>
+        <div class="radio-group">
+          <label class="radio-card">
+            <input type="radio" name="ve_recinte" value="Sí" required>
+            <div class="card-content">
+              <span class="icon">✅</span>
+              Sí, vinc
+            </div>
+          </label>
+          <label class="radio-card">
+            <input type="radio" name="ve_recinte" value="No" required>
+            <div class="card-content">
+              <span class="icon">❌</span>
+              No vinc
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Condicional: si ve al recinte -->
+      <div class="conditional" id="cond-recinte">
+
+        <div class="field">
+          <label>Quantes persones sereu a l'esmorzar? <span class="required">*</span></label>
+          <div class="stepper">
+            <button type="button" class="stepper-btn" data-target="num_esmorzar" data-action="dec">−</button>
+            <input type="number" id="num_esmorzar" name="num_esmorzar" value="1" min="1" max="20" readonly>
+            <button type="button" class="stepper-btn" data-target="num_esmorzar" data-action="inc">+</button>
+          </div>
+          <div class="help-text">Inclou-te a tu mateix/a</div>
+        </div>
+
+        <div class="field">
+          <label>Conduiràs un camió a la rua? <span class="required">*</span></label>
+          <div class="radio-group">
+            <label class="radio-card">
+              <input type="radio" name="condueix" value="Sí">
+              <div class="card-content">
+                <span class="icon">🚛</span>
+                Sí, conduiré
+              </div>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="condueix" value="No">
+              <div class="card-content">
+                <span class="icon">🙋</span>
+                No, només vinc
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Condicional: si condueix -->
+        <div class="conditional" id="cond-condueix">
+          <div class="field">
+            <label for="matricula">Matrícula del camió <span class="required">*</span></label>
+            <input type="text" id="matricula" name="matricula" placeholder="Ex: 1234 ABC" style="text-transform: uppercase;">
+          </div>
+          <div class="field">
+            <label for="dni">DNI del conductor <span class="required">*</span></label>
+            <input type="text" id="dni" name="dni" placeholder="Ex: 12345678A" style="text-transform: uppercase;">
+            <div class="help-text">8 xifres + 1 lletra</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SECCIÓ 3: DINAR -->
+    <div class="form-section">
+      <div class="section-title">Pas 3</div>
+      <div class="section-subtitle">Et quedes al dinar?</div>
+
+      <div class="field">
+        <label>Vindràs al dinar d'inauguració? <span class="required">*</span></label>
+        <div class="radio-group">
+          <label class="radio-card">
+            <input type="radio" name="ve_dinar" value="Sí" required>
+            <div class="card-content">
+              <span class="icon">🍽️</span>
+              Sí, em quedo
+            </div>
+          </label>
+          <label class="radio-card">
+            <input type="radio" name="ve_dinar" value="No" required>
+            <div class="card-content">
+              <span class="icon">🚪</span>
+              No, marxo
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Condicional: si ve al dinar -->
+      <div class="conditional" id="cond-dinar">
+        <div class="field">
+          <label>Quantes persones sereu al dinar? <span class="required">*</span></label>
+          <div class="stepper">
+            <button type="button" class="stepper-btn" data-target="num_dinar" data-action="dec">−</button>
+            <input type="number" id="num_dinar" name="num_dinar" value="1" min="1" max="20" readonly>
+            <button type="button" class="stepper-btn" data-target="num_dinar" data-action="inc">+</button>
+          </div>
+          <div class="help-text">Inclou-te a tu mateix/a</div>
+        </div>
+
+        <div class="field">
+          <label for="alergies">Al·lèrgies o intoleràncies</label>
+          <textarea id="alergies" name="alergies" placeholder="Ex: gluten, lactosa, fruita seca, vegetarià... (deixa en blanc si no n'hi ha)"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUBMIT -->
+    <div class="submit-section">
+      <button type="submit" class="btn-submit" id="btn-submit">
+        ENVIAR INSCRIPCIÓ
+      </button>
+    </div>
+
+  </form>
+
+  <!-- PANTALLA D'ÈXIT (s'amaga el form i es mostra això) -->
+  <div class="success-screen" id="success-screen">
+    <div class="success-icon">✓</div>
+    <h2>Inscripció enviada!</h2>
+    <p>Gràcies per inscriure't a la Diada de Sant Cristòfol.<br>Ens veiem l'11 de juliol! 🚛</p>
+    <div class="summary" id="summary"></div>
+    <button type="button" class="btn-submit" onclick="location.reload()" style="background: var(--dark); box-shadow: none;">
+      Nova inscripció
+    </button>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <strong>Trans-Escapa</strong> · Olot · Palibex Plaça 179
+  </div>
+
+</div>
+
+<!-- LOADING -->
+<div class="loading-overlay" id="loading">
+  <div class="spinner"></div>
+  <p>Enviant inscripció...</p>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // ⚠️ CONFIGURA AQUEST URL AMB EL TEU APPS SCRIPT WEB APP
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby-V1xvg4BEBcFE0QLNkGCKu4pTiFtY7FlxN8JBjXZk-uKKsQ80CJg9pIOm8JqOg_g/exec';
+
+  // ========== STEPPER ==========
+  document.querySelectorAll('.stepper-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = document.getElementById(btn.dataset.target);
+      const action = btn.dataset.action;
+      let value = parseInt(target.value, 10);
+      const min = parseInt(target.min, 10);
+      const max = parseInt(target.max, 10);
+      if (action === 'inc' && value < max) value++;
+      if (action === 'dec' && value > min) value--;
+      target.value = value;
+    });
+  });
+
+  // ========== CONDICIONALS ==========
+  function setupConditional(radioName, condId) {
+    document.querySelectorAll(`input[name="${radioName}"]`).forEach(r => {
+      r.addEventListener('change', () => {
+        const cond = document.getElementById(condId);
+        if (r.checked && r.value === 'Sí') {
+          cond.classList.add('show');
+        } else if (r.checked) {
+          cond.classList.remove('show');
+        }
+      });
+    });
+  }
+  setupConditional('ve_recinte', 'cond-recinte');
+  setupConditional('condueix', 'cond-condueix');
+  setupConditional('ve_dinar', 'cond-dinar');
+
+  // ========== TOAST ==========
+  function showToast(msg, isError = false) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.className = 'toast show' + (isError ? ' error' : '');
+    setTimeout(() => toast.classList.remove('show'), 3500);
+  }
+
+  // ========== VALIDACIONS ==========
+  function validateDNI(dni) {
+    const cleaned = dni.replace(/\s/g, '').toUpperCase();
+    return /^\d{8}[A-Z]$/.test(cleaned) || /^[XYZ]\d{7}[A-Z]$/.test(cleaned);
+  }
+
+  // ========== SUBMIT ==========
+  document.getElementById('inscripcio-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+    const formData = new FormData(form);
+    const data = {
+      timestamp: new Date().toISOString(),
+      nom: formData.get('nom')?.trim() || '',
+      ve_recinte: formData.get('ve_recinte') || '',
+      num_esmorzar: '',
+      condueix: '',
+      matricula: '',
+      dni: '',
+      ve_dinar: formData.get('ve_dinar') || '',
+      num_dinar: '',
+      alergies: ''
+    };
+
+    // Validacions condicionals
+    if (!data.nom) { showToast('Cal el nom i cognoms', true); return; }
+    if (!data.ve_recinte) { showToast('Indica si vens al recinte firal', true); return; }
+    if (!data.ve_dinar) { showToast('Indica si et quedes al dinar', true); return; }
+
+    if (data.ve_recinte === 'Sí') {
+      data.num_esmorzar = formData.get('num_esmorzar') || '1';
+      data.condueix = formData.get('condueix') || '';
+      if (!data.condueix) { showToast('Indica si conduiràs un camió', true); return; }
+
+      if (data.condueix === 'Sí') {
+        data.matricula = (formData.get('matricula') || '').trim().toUpperCase();
+        data.dni = (formData.get('dni') || '').trim().toUpperCase();
+        if (!data.matricula) { showToast('Cal la matrícula del camió', true); return; }
+        if (!data.dni) { showToast('Cal el DNI del conductor', true); return; }
+        if (!validateDNI(data.dni)) { showToast('El DNI no és vàlid', true); return; }
+      }
+    }
+
+    if (data.ve_dinar === 'Sí') {
+      data.num_dinar = formData.get('num_dinar') || '1';
+      data.alergies = (formData.get('alergies') || '').trim();
+    }
+
+    // Envia a Apps Script
+    document.getElementById('loading').classList.add('show');
+    document.getElementById('btn-submit').disabled = true;
+
+    try {
+      // Mode "no-cors" perquè Apps Script no retorna headers CORS — funciona, però no podem llegir la resposta
+      await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(data)
+      });
+
+      // Mostra pantalla d'èxit amb resum
+      const summary = document.getElementById('summary');
+      let html = `<div class="summary-row"><span class="summary-label">Nom</span><span class="summary-value">${escapeHtml(data.nom)}</span></div>`;
+      html += `<div class="summary-row"><span class="summary-label">Al recinte</span><span class="summary-value">${data.ve_recinte}</span></div>`;
+      if (data.ve_recinte === 'Sí') {
+        html += `<div class="summary-row"><span class="summary-label">Esmorzar</span><span class="summary-value">${data.num_esmorzar} ${data.num_esmorzar == 1 ? 'persona' : 'persones'}</span></div>`;
+        if (data.condueix === 'Sí') {
+          html += `<div class="summary-row"><span class="summary-label">Conduiràs</span><span class="summary-value">${escapeHtml(data.matricula)}</span></div>`;
+        }
+      }
+      html += `<div class="summary-row"><span class="summary-label">Dinar</span><span class="summary-value">${data.ve_dinar}${data.ve_dinar === 'Sí' ? ' · ' + data.num_dinar + ' pers.' : ''}</span></div>`;
+      summary.innerHTML = html;
+
+      document.getElementById('inscripcio-form').style.display = 'none';
+      document.querySelector('.submit-section').style.display = 'none';
+      document.getElementById('success-screen').classList.add('show');
+      window.scrollTo(0, 0);
+
+    } catch (err) {
+      showToast('Hi ha hagut un error. Torna-ho a provar.', true);
+      document.getElementById('btn-submit').disabled = false;
+    } finally {
+      document.getElementById('loading').classList.remove('show');
+    }
+  });
+
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+</script>
+
+</body>
+</html>
