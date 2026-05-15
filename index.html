@@ -757,17 +757,22 @@
       data.alergies = (formData.get('alergies') || '').trim();
     }
 
-    // Envia a Apps Script
+    // Envia a Apps Script via GET (més fiable que POST amb Apps Script + CORS)
     document.getElementById('loading').classList.add('show');
     document.getElementById('btn-submit').disabled = true;
 
     try {
-      // Mode "no-cors" perquè Apps Script no retorna headers CORS — funciona, però no podem llegir la resposta
-      await fetch(APPS_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify(data)
+      // Construir URL amb paràmetres
+      const params = new URLSearchParams();
+      Object.keys(data).forEach(key => {
+        params.append(key, data[key]);
+      });
+      const fullUrl = APPS_SCRIPT_URL + '?' + params.toString();
+
+      // Enviem amb GET — Apps Script ho rep a doGet(e) amb e.parameter
+      await fetch(fullUrl, {
+        method: 'GET',
+        mode: 'no-cors'
       });
 
       // Mostra pantalla d'èxit amb resum
